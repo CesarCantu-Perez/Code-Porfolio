@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1634429054 source:c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\minheap\main.c
+	<stdlib.h>
+	<stdio.h>
+	"merge_k.h"
+
+1634146023 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\minheap\merge_k.h
+	"list.h"
+
+1634145751 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\minheap\list.h
+
+1634145793 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\minheap\list.c
+	<stdio.h>
+	<stdlib.h>
+	"list.h"
+
+1634428926 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\minheap\merge_k.c
+	<stdlib.h>
+	<stdio.h>
+	"merge_k.h"
+
