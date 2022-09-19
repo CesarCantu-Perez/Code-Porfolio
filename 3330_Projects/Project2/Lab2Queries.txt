@@ -1,0 +1,151 @@
+-- Name: Cesar Cantu-Perez
+-- ID# 1001463763
+-- Date: 4/30/2022
+
+-- 1. Retrieve the ID, Maker, and Model of every plane that was last maintained on or after ’10/1/2021’.
+SELECT ID, Maker, Model FROM plane WHERE LastMaint > 2021-10-01;
+Q1 Results:
+---
++----+--------+-------+
+| ID | Maker  | Model |
++----+--------+-------+
+|  1 | Boeing | 747   |
+|  2 | Boeing | 777   |
+|  3 | Boeing | 777   |
+|  4 | Boeing | 787   |
+|  5 | Airbus | 380   |
+|  6 | Airbus | 380   |
+|  7 | Airbus | 340   |
+|  8 | Airbus | 340   |
++----+--------+-------+
+
+
+-- 2. Retrieve the name of every pilot and every date s/he was flying.
+SELECT Name, FDate FROM pilot, flightleginstance WHERE Pilot = ID;
+Q2 Results:
+---
++------------+-------------+
+| Name       | FDate       |
++------------+-------------+
+| Jones      | 2022-10-06  |
+| Jones      | 2022-10-08  |
+| Jones      | 2022-10-08  |
+| Smith      | 2022-10-06  |
+| Smith      | 2022-10-06  |
+| Smith      | 2022-10-08  |
+| Walker     | 2022-10-08  |
+| Walker     | 2022-10-08  |
+| Walker     | 2022-10-06  |
+| Daniel     | 2022-10-08  |
+| Daniel     | 2022-10-06  |
+| Samuel     | 2022-10-06  |
+| Samuel     | 2022-10-06  |
+| Samuel     | 2022-10-08  |
+| Allan      | 2022-10-08  |
+| Allan      | 2022-10-08  |
+| Allan      | 2022-10-06  |
+| Madison    | 2022-10-06  |
+| Ryan       | 2022-10-08  |
+| Ryan       | 2022-10-06  |
++------------+-------------+
+
+
+-- 3. Retrieve the number of times passenger ’James’ reserved an ’E’ class seat.
+SELECT COUNT(*) as 'Number of Times' FROM reservation WHERE PassID = 1 AND SeatClass ='E';
+Q3 Results:
+---
++-----------------+
+| Number Of Times |
++-----------------+
+|               2 |
++-----------------+
+
+
+-- 4. For every plane maker, retrieve the max number of total plane seats on any of the maker’s models.
+SELECT Maker, Model, SUM(NoOfSeats) FROM planeseats GROUP BY Model;
+Q4 Results:
+---
++--------+-------+----------------+
+| Maker  | Model | SUM(NoOfSeats) |
++--------+-------+----------------+
+| Airbus | 340   |            240 |
+| Airbus | 380   |            360 |
+| Boeing | 747   |            340 |
+| Boeing | 777   |            220 |
+| Boeing | 787   |            275 |
++--------+-------+----------------+
+
+
+-- 5. Retrieve the name of every passenger who booked the airline ticket on the same day of the flight.
+SELECT name FROM passenger, reservation WHERE PassID = ID AND FDate = DateBooked;
+Q5:
+---
++---------+
+| name    |
++---------+
+| Peter   |
+| Michael |
+| Harry   |
++---------+
+
+
+-- 6. For every airport, retrieve the code, city, state, and the number of flights that land in the airport as a final destination.
+SELECT Code, City, State, COUNT(*) FROM airport, flightleg WHERE ToA = Code AND ((FLNO = 200 AND Seq = 2) OR (FLNO = 400 AND Seq = 2) OR (FLNO = 500 AND Seq = 2) OR (FLNO = 100 AND Seq = 1) OR (FLNO = 300 AND SEQ = 1)
+	OR (FLNO = 600 AND Seq = 1) OR (FLNO = 700 AND Seq = 1)) GROUP BY Code;
+Q6 Results:
+---
++------+----------------+-------+----------+
+| Code | City           | State | COUNT(*) |
++------+----------------+-------+----------+
+| BWI  | Baltimore      | MD    |        1 |
+| DFW  | Dallas         | TX    |        2 |
+| FLL  | Ft. Lauderdale | FL    |        1 |
+| JFK  | New York       | NY    |        1 |
+| LAX  | Los Angeles    | CA    |        1 |
+| LGA  | New York       | NY    |        1 |
++------+----------------+-------+----------+
+
+-- 7. NOT REQUIRED FOR THE PROJECT
+
+
+-- 8. For every pilot, retrieve the total number of takeoffs.
+SELECT name as 'Pilot', COUNT(*) as 'Number of Take Offs' FROM pilot, flightleginstance WHERE ID = Pilot GROUP BY name ORDER BY name;
+Q8 Results:
+---
++---------+---------------------+
+| Pilot   | Number of Take Offs |
++---------+---------------------+
+| Allan   |                   3 |
+| Daniel  |                   2 |
+| Jones   |                   3 |
+| Madison |                   1 |
+| Ryan    |                   2 |
+| Samuel  |                   3 |
+| Smith   |                   3 |
+| Walker  |                   3 |
++---------+---------------------+
+
+
+-- 9. For each airport, retrieve all pairs of flight numbers that arrive consecutively at the airport.
+
+--10. For each pair of cities, X and Y, retrieve the total number of seats available daily on all direct flight legs between the cities in either direction (X-Y is distinct from Y-X). Note: Cities not Airports.
+SELECT DISTINCT a.City as 'FromA', b.City as 'ToA', FLOOR(SUM(NoOfSeats)/10) as 'SUM(NoOfSeats)' from airport a, airport b, flightleg c, flightleg d, plane, planeseats WHERE plane.Model = planeseats.Model
+	AND c.plane = ID AND c.FromA = a.Code AND c.ToA = b.Code GROUP BY c.FLNO, c.Seq;
+Q10 Results:
+---
++------------------+-------------------+----------------+
+| FromA            | ToA               | SUM(NoOfSeats) |
++------------------+-------------------+----------------+
+| San Francisco    | Chicago           | 220            |
+| Chicago          | New York          | 220            |
+| Dallas           | New York          | 220            |
+| Los Angeles      | Houston           | 340            |
+| Houston          | Ft. Lauderdale    | 340            |
+| Ft. Lauderdale   | Chicago           | 360            |
+| Chicago          | Los Angeles       | 360            |
+| Chicago          | Dallas            | 240            |
+| Dallas           | Baltimore         | 240            |
+| New York         | Dallas            | 240            |
++------------------+-------------------+----------------+
+
+-- The input for Q10 is backwards from the one on the announcement (Meaning the first item in my Q10 is the last one in the announcement results)
