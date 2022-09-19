@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1633489191 source:c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\bucket_sort\main.c
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"list.h"
+
+1633192887 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\bucket_sort\list.h
+
+1633457730 c:\users\cesar cantu-perez\downloads\school stuff\cse-3318 hw\bucket_sort\list.c
+	<stdio.h>
+	<stdlib.h>
+	"list.h"
+
